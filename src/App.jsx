@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  Home,
-  Briefcase,
-  FileText,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, Download, Home, Briefcase, FileText, X } from "lucide-react";
+import { Box, Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import profileImage from "./assets/profile.jpeg";
 
@@ -23,72 +19,59 @@ import mis7 from "./assets/mis7.png";
 import mis8 from "./assets/mis8.png";
 import mis9 from "./assets/mis9.png";
 
+import etd1 from "./assets/etd1.png";
+import etd2 from "./assets/etd2.png";
+import etd3 from "./assets/etd3.png";
+import etd4 from "./assets/etd4.png";
+import etd5 from "./assets/etd5.png";
+import etd6 from "./assets/etd6.png";
+import etd7 from "./assets/etd7.png";
+import etd8 from "./assets/etd8.png";
+import etd9 from "./assets/etd9.png";
+import etd10 from "./assets/etd10.png";
+import etd11 from "./assets/etd11.png";
+import etd12 from "./assets/etd12.png";
+import etd13 from "./assets/etd13.png";
+
+import ump1 from "./assets/ump1.png";
+import ump2 from "./assets/ump2.png";
+import ump3 from "./assets/ump3.png";
+import ump4 from "./assets/ump4.png";
+import ump5 from "./assets/ump5.png";
+import ump6 from "./assets/ump6.png";
+import ump7 from "./assets/ump7.png";
+import ump8 from "./assets/ump8.png";
+import ump9 from "./assets/ump9.png";
+import ump10 from "./assets/ump10.png";
+import ump11 from "./assets/ump11.png";
+import ump12 from "./assets/ump12.png";
+import ump13 from "./assets/ump13.png";
+
 const projects = [
   {
     id: 1,
     title: "MIS Helpdesk",
-    description:
-      "A Ticketing Management System for Management Information System department.",
+    description: "A Ticketing Management System for Management Information System department.",
     images: [mis1, mis2, mis3, mis4, mis5, mis6, mis7, mis8, mis9],
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
+    tags: ["React", "Material UI", "Redux", ""],
   },
   {
     id: 2,
     title: "Elixir ETD",
-    description:
-      "Project for Engineering and Technical Department (ETD) warehouse that keep tracks and manages all transactions from receiving to dispatching of materials.",
-    images: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80",
-    ],
+    description: "Project for Engineering and Technical Department (ETD) warehouse that keep tracks and manages all transactions from receiving to dispatching of materials.",
+    images: [etd1, etd2, etd3, etd4, etd5, etd6, etd7, etd8, etd9, etd10, etd11, etd12, etd13],
     tags: ["Python", "TensorFlow", "React", "D3.js"],
   },
   {
     id: 3,
-    title: "Elixir M&S (Feedmill)",
-    description:
-      "Project for Materials & Supplies warehouse that keep tracks and manages all transactions from receiving to dispatching of materials.",
-    images: [
-      "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=80",
-      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-      "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80",
-    ],
+    title: "Ultra Maverick Pharmacy",
+    description: "Project for Materials & Supplies warehouse that keep tracks and manages all transactions from receiving to dispatching of materials.",
+    images: [ump1, ump2, ump3, ump4, ump5, ump6, ump7, ump8, ump9, ump10, ump11, ump12, ump13],
     tags: ["React Native", "Firebase", "Redux"],
   },
 ];
 
-const skills = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "JavaScript",
-  "Redux",
-  "Tailwind",
-  "shadcn/ui",
-  // "Nuxt",
-  // "Astro",
-  "Node",
-  // "Bun",
-  // "Workers",
-  "Postgres",
-  // "MongoDB",
-  // "Redis",
-  // "Supabase",
-  // "Fastify",
-  "Hono",
-  "Vite",
-  // "Turborepo",
-  "Docker",
-  "Git",
-  "GitHub",
-  // "Payload",
-  // "Sanity",
-  // "ChatGPT",
-  // "AG Grid",
-  // "Mapbox",
-  "Figma",
-];
+const skills = ["Next.js", "React", "TypeScript", "JavaScript", "Redux", "Tailwind", "shadcn/ui", "Node", "Postgres", "Hono", "Vite", "Docker", "Git", "GitHub", "Figma"];
 
 const workHistory = [
   {
@@ -118,18 +101,6 @@ const workHistory = [
       "Crafted responsive marketing landing pages.",
     ],
   },
-  // {
-  //   title: "Senior Front-end Engineer",
-  //   company: "Casago",
-  //   location: "🇺🇸 United States",
-  //   type: "Full-Time",
-  //   period: "Oct 2021 - Apr 2022",
-  //   achievements: [
-  //     "Joined the new company after Nokori's acquisition.",
-  //     "Helped to adapt and embed the new assets into the franchise ecosystem.",
-  //     "Developed the ground for the new property analytics project.",
-  //   ],
-  // },
 ];
 
 function ProjectCarousel({ images }) {
@@ -150,7 +121,7 @@ function ProjectCarousel({ images }) {
         width: "100%",
         height: "280px",
         overflow: "hidden",
-        borderRadius: "12px 12px 0 0",
+        // borderRadius: "12px 12px 0 0",
       }}
     >
       <img
@@ -183,12 +154,8 @@ function ProjectCarousel({ images }) {
           transition: "all 0.3s",
           color: "white",
         }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.background = "rgba(0,0,0,0.8)")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.background = "rgba(0,0,0,0.6)")
-        }
+        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.8)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.6)")}
       >
         <ChevronLeft size={24} />
       </button>
@@ -212,12 +179,8 @@ function ProjectCarousel({ images }) {
           transition: "all 0.3s",
           color: "white",
         }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.background = "rgba(0,0,0,0.8)")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.background = "rgba(0,0,0,0.6)")
-        }
+        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.8)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.6)")}
       >
         <ChevronRight size={24} />
       </button>
@@ -238,8 +201,7 @@ function ProjectCarousel({ images }) {
               width: idx === currentIndex ? "24px" : "8px",
               height: "8px",
               borderRadius: "4px",
-              background:
-                idx === currentIndex ? "#faa414" : "rgba(255,255,255,0.5)",
+              background: idx === currentIndex ? "#faa414" : "rgba(255,255,255,0.5)",
               transition: "all 0.3s",
             }}
           />
@@ -251,6 +213,53 @@ function ProjectCarousel({ images }) {
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const sectionRefs = useRef({});
+
+  useEffect(() => {
+    const sections = ["home", "projects", "resume"];
+    sections.forEach((id) => {
+      sectionRefs.current[id] = document.getElementById(id);
+    });
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200; // offset
+
+      let current = "home";
+      sections.forEach((id) => {
+        const section = sectionRefs.current[id];
+        if (section && scrollPosition >= section.offsetTop) {
+          current = id;
+        }
+      });
+
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleDownload = async () => {
+    setIsLoading(true);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const link = document.createElement("a");
+      link.href = "/resume.pdf";
+      link.download = "My_Resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Download failed:", error);
+    } finally {
+      setTimeout(() => setIsLoading(false), 1500);
+    }
+  };
 
   const scrollToSection = (section) => {
     setActiveSection(section);
@@ -335,7 +344,7 @@ export default function Portfolio() {
               color: "#faa414",
             }}
           >
-            {/* //Ichiban */}
+            {/* // ichibannn */}
           </div>
           <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
             {[
@@ -431,7 +440,7 @@ export default function Portfolio() {
                 fontWeight: "400",
               }}
             >
-              Full Stack Developer & UI/UX Enthusiast
+              Software Developer & UI/UX Enthusiast
             </p>
 
             <p
@@ -443,14 +452,11 @@ export default function Portfolio() {
                 lineHeight: "1.8",
               }}
             >
-              I'm a Software Developer with more than 3 years of experience in
-              building web applications. Passionate about creating beautiful,
-              functional experiences using modern technologies.
+              I'm a Junior Software Developer with more than 3 years of experience in building web applications. Passionate about creating beautiful, functional experiences using
+              modern technologies.
             </p>
 
-            <div
-              style={{ display: "flex", gap: "16px", justifyContent: "center" }}
-            >
+            <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
               {[
                 {
                   icon: <Github size={24} />,
@@ -488,14 +494,12 @@ export default function Portfolio() {
                     textDecoration: "none",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background =
-                      "rgba(251, 191, 36, 0.1)";
+                    e.currentTarget.style.background = "rgba(251, 191, 36, 0.1)";
                     e.currentTarget.style.color = "#faa414";
                     e.currentTarget.style.transform = "translateY(-4px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background =
-                      "rgba(255, 255, 255, 0.05)";
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
                     e.currentTarget.style.color = "#8892b0";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
@@ -543,9 +547,7 @@ export default function Portfolio() {
                     overflow: "hidden",
                     border: "1px solid rgba(255, 255, 255, 0.1)",
                     transition: "all 0.3s",
-                    animation: `fadeIn 0.6s ease-out ${
-                      index * 0.15
-                    }s backwards`,
+                    animation: `fadeIn 0.6s ease-out ${index * 0.15}s backwards`,
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-8px)";
@@ -553,8 +555,7 @@ export default function Portfolio() {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor =
-                      "rgba(255, 255, 255, 0.1)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
                   }}
                 >
                   <ProjectCarousel images={project.images} />
@@ -582,9 +583,7 @@ export default function Portfolio() {
                       {project.description}
                     </p>
 
-                    <div
-                      style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
-                    >
+                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
@@ -601,6 +600,33 @@ export default function Portfolio() {
                         </span>
                       ))}
                     </div>
+
+                    {/* ➕ Add View Full Project button here */}
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      style={{
+                        marginTop: "16px",
+                        background: "rgba(251,191,36,0.1)",
+                        border: "1px solid #faa414",
+                        color: "#faa414",
+                        padding: "8px 16px",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        transition: "all 0.3s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "#faa414";
+                        e.currentTarget.style.color = "#071021";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "rgba(251,191,36,0.1)";
+                        e.currentTarget.style.color = "#faa414";
+                      }}
+                    >
+                      View Full Project
+                    </button>
                   </div>
                 </div>
               ))}
@@ -636,10 +662,8 @@ export default function Portfolio() {
                 marginBottom: "16px",
               }}
             >
-              I'm a highly skilled full-stack engineer with more than 8 years of
-              experience in building web applications. On this page, you can
-              learn more about my knowledge stack and my previous work
-              experience.
+              I'm a highly skilled full-stack engineer with more than 8 years of experience in building web applications. On this page, you can learn more about my knowledge stack
+              and my previous work experience.
             </p>
 
             <div className="zigzag" style={{ marginBottom: "48px" }} />
@@ -663,9 +687,8 @@ export default function Portfolio() {
                 marginBottom: "24px",
               }}
             >
-              Here are the frameworks, libraries, services and runtimes I have
-              experience with. This is not a complete list! I'm constantly
-              gaining new skills, and hence it can be a little bit outdated.
+              Here are the frameworks, libraries, services and runtimes I have experience with. This is not a complete list! I'm constantly gaining new skills, and hence it can be
+              a little bit outdated.
             </p>
 
             <div
@@ -693,8 +716,7 @@ export default function Portfolio() {
                     e.currentTarget.style.color = "#faa414";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor =
-                      "rgba(255, 255, 255, 0.1)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
                     e.currentTarget.style.color = "#8892b0";
                   }}
                 >
@@ -744,9 +766,35 @@ export default function Portfolio() {
                   e.currentTarget.style.background = "rgba(251, 191, 36, 0.1)";
                   e.currentTarget.style.color = "#faa414";
                 }}
+                onClick={handleDownload}
+                disabled={isLoading}
               >
-                <Download size={18} />
-                Download Resume
+                {isLoading ? (
+                  <>
+                    <div
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        border: "2px solid rgba(250, 164, 20, 0.3)",
+                        borderTop: "2px solid #faa414",
+                        borderRadius: "50%",
+                        animation: "spin 0.8s linear infinite",
+                      }}
+                    />
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    <Download size={18} />
+                    Download Resume
+                  </>
+                )}
+                <style>{`
+                  @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                  }
+                `}</style>
               </button>
             </div>
 
@@ -760,9 +808,7 @@ export default function Portfolio() {
               Below you will find a summary of my past employment experience.
             </p>
 
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "32px" }}
-            >
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
               {workHistory.map((job, index) => (
                 <div
                   key={index}
@@ -805,9 +851,7 @@ export default function Portfolio() {
                       alignItems: "center",
                     }}
                   >
-                    <span style={{ color: "#faa414", fontWeight: "600" }}>
-                      {job.company}
-                    </span>
+                    <span style={{ color: "#faa414", fontWeight: "600" }}>{job.company}</span>
                     <span style={{ color: "#8892b0" }}>•</span>
                     <span style={{ color: "#8892b0" }}>{job.location}</span>
                     <span style={{ color: "#8892b0" }}>•</span>
@@ -857,6 +901,130 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
+
+        {/* 🔹 Full Project Dialog with Swiper */}
+        <Dialog
+          open={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          maxWidth="xl"
+          fullWidth
+          PaperProps={{
+            sx: {
+              backgroundColor: "#0b1223",
+              color: "white",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "12px",
+              fontFamily: "'Inter', sans-serif",
+              width: "90vw",
+              height: "90vh",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            },
+          }}
+        >
+          {selectedProject && (
+            <>
+              <DialogTitle
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  fontWeight: 600,
+                  fontSize: "1.25rem",
+                  px: 3,
+                  py: 2,
+                }}
+              >
+                {selectedProject.title}
+                <IconButton onClick={() => setSelectedProject(null)} sx={{ color: "white", "&:hover": { color: "#faa414" } }}>
+                  <X />
+                </IconButton>
+              </DialogTitle>
+
+              <DialogContent
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  p: 0,
+                }}
+              >
+                <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
+                  <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} style={{ width: "100%", height: "100%" }}>
+                    {selectedProject.images.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            height: "80vh",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#000",
+                          }}
+                        >
+                          <img
+                            src={img}
+                            alt={`${selectedProject.title}-${index}`}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          />
+                        </Box>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </Box>
+
+                <Typography
+                  sx={{
+                    mt: 2,
+                    color: "#8892b0",
+                    fontSize: "15px",
+                    textAlign: "center",
+                    px: 3,
+                  }}
+                >
+                  {selectedProject.description}
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "8px",
+                    flexWrap: "wrap",
+                    mt: 1.5,
+                    mb: 2,
+                  }}
+                >
+                  {selectedProject.tags?.map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        background: "rgba(251,191,36,0.1)",
+                        border: "1px solid #faa414",
+                        color: "#faa414",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        fontSize: "13px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </Box>
+              </DialogContent>
+            </>
+          )}
+        </Dialog>
       </div>
     </div>
   );
